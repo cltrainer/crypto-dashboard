@@ -51,6 +51,7 @@ interface ColumnData<T> {
   label: string
   numeric?: boolean
   width: number
+  flexGrow?: number
   render?: (record: keyof T, row: T, index: number) => ReactNode
 }
 

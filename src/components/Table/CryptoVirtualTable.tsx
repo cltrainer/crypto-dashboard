@@ -3,16 +3,17 @@ import { styled } from '@mui/material/styles'
 import { green, red } from '@mui/material/colors'
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
-import Paper from '@mui/material/Paper'
+import { Paper } from '@mui/material'
 import BaseVirtualizedTable from './BaseVirtualTable'
-import { CoinResponse } from 'types/main.d'
+import { CoinResponse, TimeFrame } from 'types/main.d'
 
 type Props<T> = {
   dataSource: Array<T>
+  timeFrame: TimeFrame
   onRowClick: (row: T, index: number) => void
 }
 
-const CryptoVirtualTable: FC<Props<CoinResponse>> = ({ dataSource, onRowClick }) => {
+const CryptoVirtualTable: FC<Props<CoinResponse>> = ({ dataSource, timeFrame, onRowClick }) => {
   return (
     <Paper style={{ height: '100vh', width: '100%' }}>
       <BaseVirtualizedTable
@@ -45,7 +46,8 @@ const CryptoVirtualTable: FC<Props<CoinResponse>> = ({ dataSource, onRowClick })
           {
             width: 150,
             label: 'Name',
-            dataKey: 'name'
+            dataKey: 'name',
+            flexGrow: 1
           },
           {
             width: 150,
@@ -88,8 +90,8 @@ const CryptoVirtualTable: FC<Props<CoinResponse>> = ({ dataSource, onRowClick })
             }
           },
           {
-            width: 120,
-            label: 'Protein\u00A0(g)',
+            width: 150,
+            label: `Avg in ${timeFrame}d`,
             dataKey: 'protein',
             numeric: true
           }

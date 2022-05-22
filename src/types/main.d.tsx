@@ -1,3 +1,5 @@
+export type TimeFrame = 1 | 3 | 7
+
 export interface Sparkline {
   price: number[]
 }
