@@ -2,27 +2,23 @@ import { FC, useState, useEffect } from 'react'
 import CircularProgress from '@mui/material/CircularProgress'
 import DialogContent from '@mui/material/DialogContent'
 import { BootstrapDialog, BootstrapDialogTitle } from './BaseDialog'
+import LineChart from 'components/LineChart'
 import { CoinResponse, CryptoHistory } from 'types/main.d'
 import { getCryptoHistory } from 'services/cryptoService'
 
 interface Props {
+  open: boolean
   crypto?: CoinResponse
   onClose: () => void
 }
 
-const CryptoHistoryDialog: FC<Props> = ({ crypto, onClose }) => {
-  const [open, setOpen] = useState(false)
+const CryptoHistoryDialog: FC<Props> = ({ open, crypto, onClose }) => {
   const [isFetchingHistory, setIsFetchingHistory] = useState(false)
   const [history, setHistory] = useState<CryptoHistory>()
 
   useEffect(() => {
-    // Open/Close modal
-    setOpen(!!crypto)
-
-    // Grab crypto history
-    setHistory(undefined)
-    setIsFetchingHistory(true)
     if (crypto) {
+      setIsFetchingHistory(true)
       getCryptoHistory({
         id: crypto.id,
         onSuccess: data => {
@@ -37,6 +33,11 @@ const CryptoHistoryDialog: FC<Props> = ({ crypto, onClose }) => {
     }
   }, [crypto])
 
+  const handleClose = () => {
+    setHistory(undefined)
+    onClose()
+  }
+
   const renderHistory = () => {
     // No crypto is selected
     if (!crypto) {
@@ -44,7 +45,9 @@ const CryptoHistoryDialog: FC<Props> = ({ crypto, onClose }) => {
     }
 
     // Fetching crypto history
-    if (isFetchingHistory) {
+    // - Show loading sign for first fetch only
+    // - To avoid flashing dialog
+    if (isFetchingHistory && !history) {
       return (
         <DialogContent>
           <CircularProgress />
@@ -60,10 +63,12 @@ const CryptoHistoryDialog: FC<Props> = ({ crypto, onClose }) => {
     // Show crypto history
     return (
       <>
-        <BootstrapDialogTitle id='crypto-dialog-title' onClose={onClose}>
-          {crypto.name}
+        <BootstrapDialogTitle id='crypto-dialog-title' onClose={handleClose}>
+          {crypto.name} ({crypto.symbol.toUpperCase()}) - Past 24h price
         </BootstrapDialogTitle>
-        <DialogContent dividers>{JSON.stringify(history)}</DialogContent>
+        <DialogContent dividers>
+          <LineChart initialData={history.prices.map(value => ({ date: value[0], volume: value[1] }))} />
+        </DialogContent>
       </>
     )
   }

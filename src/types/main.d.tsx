@@ -5,7 +5,9 @@ export interface CryptoSparkline {
 }
 
 export interface CryptoHistory {
-  price: number[][]
+  prices: Array<number[]>
+  market_caps: Array<number[]>
+  total_volumes: Array<number[]>
 }
 
 export interface CoinResponse {
