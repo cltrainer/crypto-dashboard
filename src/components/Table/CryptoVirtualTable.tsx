@@ -1,11 +1,10 @@
 import { FC } from 'react'
 import { styled } from '@mui/material/styles'
-import { green, red } from '@mui/material/colors'
-import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp'
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 import { Paper } from '@mui/material'
 import BaseVirtualizedTable from './BaseVirtualTable'
+import ChangeIndicator from 'components/ChangeIndicator'
 import { CoinResponse, TimeFrame } from 'types/main.d'
+import { formatPrice } from 'services/helpers'
 
 type Props<T> = {
   dataSource: Array<T>
@@ -15,7 +14,7 @@ type Props<T> = {
 
 const CryptoVirtualTable: FC<Props<CoinResponse>> = ({ dataSource, timeFrame, onRowClick }) => {
   return (
-    <Paper style={{ height: '100vh', width: '100%' }}>
+    <Paper style={{ height: '90vh', width: '100%' }}>
       <BaseVirtualizedTable
         onRowClick={onRowClick}
         rowCount={dataSource.length}
@@ -54,7 +53,12 @@ const CryptoVirtualTable: FC<Props<CoinResponse>> = ({ dataSource, timeFrame, on
             label: 'Price (USD)',
             dataKey: 'current_price',
             numeric: true,
-            render: record => `$${record.toString()}`
+            render: record => {
+              if (typeof record === 'number') {
+                return formatPrice(record)
+              }
+              return record
+            }
           },
           {
             width: 120,
@@ -63,30 +67,9 @@ const CryptoVirtualTable: FC<Props<CoinResponse>> = ({ dataSource, timeFrame, on
             numeric: true,
             render: record => {
               if (typeof record === 'number') {
-                const value = `${record}%`
-                if (record < 0) {
-                  return (
-                    <ChangeWrapperNegative className='negative'>
-                      <ArrowDropDownIcon />
-                      <div className='negative'>{value}</div>
-                    </ChangeWrapperNegative>
-                  )
-                }
-                if (record === 0) {
-                  return (
-                    <ChangeWrapper>
-                      <div>{value}</div>
-                    </ChangeWrapper>
-                  )
-                }
-                return (
-                  <ChangeWrapperPositve>
-                    <ArrowDropUpIcon />
-                    <div>{value}</div>
-                  </ChangeWrapperPositve>
-                )
+                return <ChangeIndicator value={record} />
               }
-              return <></>
+              return record
             }
           },
           {
@@ -103,16 +86,6 @@ const CryptoVirtualTable: FC<Props<CoinResponse>> = ({ dataSource, timeFrame, on
 
 const CryptoSymbol = styled('img')`
   width: 32px;
-`
-const ChangeWrapper = styled('div')`
-  display: flex;
-  flex-direction: row;
-`
-const ChangeWrapperPositve = styled(ChangeWrapper)`
-  color: ${green[500]};
-`
-const ChangeWrapperNegative = styled(ChangeWrapper)`
-  color: ${red[500]};
 `
 
 export default CryptoVirtualTable
