@@ -12,8 +12,10 @@ const TimeFrameToggle: FC<Props> = ({ value, onChange }) => {
     <ToggleButtonGroup
       value={value}
       exclusive
-      onChange={(event, value) => {
-        onChange(value)
+      onChange={(event, newValue) => {
+        // Toggle button will become unselected when click twice
+        // Special handle override toggle button group value to last selection when no selection
+        onChange(newValue || value)
       }}
       aria-label='average time frame'
     >
