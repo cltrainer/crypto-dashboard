@@ -13,6 +13,11 @@ export const getCurrentTimestamp: () => string = () => {
 }
 
 export const formatPrice: (value: number) => string = value => {
-  const currency = 'USD'
-  return new Intl.NumberFormat('en-IN', { style: 'currency', currency }).format(value)
+  const options: Intl.NumberFormatOptions = {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: value > 1 ? 2 : 8 // show more decimal place for price tend to zero
+  }
+  return new Intl.NumberFormat('en-IN', options).format(value)
 }
