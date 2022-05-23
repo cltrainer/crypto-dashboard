@@ -1,4 +1,4 @@
-import { CoinResponse, Sparkline } from 'types/main.d'
+import { CoinResponse, CryptoHistory } from 'types/main.d'
 
 const COINGECKO_ENDPOINT = 'https://api.coingecko.com/api/v3'
 const CURRENCY = 'usd'
@@ -15,7 +15,7 @@ interface GetCryptoListRequest {
 
 interface GetCryptoHistoryRequest {
   id: string
-  onSuccess: { (data: Sparkline): void }
+  onSuccess: { (data: CryptoHistory): void }
   onFail: ErrorResponseFunction
 }
 
