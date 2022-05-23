@@ -1,4 +1,4 @@
-import { FC, useMemo } from 'react'
+import { FC } from 'react'
 import { styled } from '@mui/material/styles'
 import { Paper } from '@mui/material'
 import BaseVirtualizedTable from './BaseVirtualTable'
@@ -13,23 +13,8 @@ type Props<T> = {
 }
 
 const CryptoVirtualTable: FC<Props<CoinResponse>> = ({ dataSource, timeFrame, onRowClick }) => {
-  const totalSparklineWindow = useMemo(() => {
-    if (dataSource.length > 0) {
-      return dataSource[0].sparkline_in_7d.price.length
-    }
-    return 0
-  }, [dataSource])
-
-  const requiredSparklineWindow = useMemo(() => {
-    if (timeFrame === 7) {
-      return totalSparklineWindow
-    }
-    const windowForOneDay = Math.round(totalSparklineWindow / 7)
-    return windowForOneDay * timeFrame
-  }, [totalSparklineWindow, timeFrame])
-
   return (
-    <Paper style={{ height: '90vh', width: '100%' }}>
+    <Paper style={{ height: 'calc(100vh - 120px)', width: '100%' }}>
       <BaseVirtualizedTable
         onRowClick={onRowClick}
         rowCount={dataSource.length}
@@ -99,12 +84,23 @@ const CryptoVirtualTable: FC<Props<CoinResponse>> = ({ dataSource, timeFrame, on
             numeric: true,
             render: record => {
               if (typeof record === 'object') {
+                // Caculate window size
+                // Sparkline length vary among cryptos, can't caculate in advance
                 const { price } = record as CryptoSparkline
+                let totalWindowSize = price.length
+                let requiredWindowSize = 0
+                if (timeFrame === 7) {
+                  requiredWindowSize = totalWindowSize
+                } else {
+                  requiredWindowSize = Math.round(totalWindowSize / 7) * timeFrame
+                }
+
+                //Caculate average price
                 let sum = 0
-                for (let i = 0; i < requiredSparklineWindow; i += 1) {
+                for (let i = 0; i < requiredWindowSize; i += 1) {
                   sum += price[i]
                 }
-                const averagePrice = sum / requiredSparklineWindow
+                const averagePrice = sum / requiredWindowSize
                 return formatPrice(averagePrice)
               }
               return 0
