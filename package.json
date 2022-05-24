@@ -40,6 +40,15 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+  "jest":{
+    "moduleNameMapper": {
+      "d3-format": "<rootDir>/node_modules/d3-format/dist/d3-format.min.js",
+      "d3-time-format": "<rootDir>/node_modules/d3-time-format/dist/d3-time-format.min.js"
+    },
+    "transformIgnorePatterns": [
+      "node_modules/(?!react-financial-charts)"
+    ]
+  },
   "browserslist": {
     "production": [
       ">0.2%",
