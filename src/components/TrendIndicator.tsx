@@ -8,46 +8,46 @@ interface Props {
   value: number
 }
 
-const ChangeIndicator: FC<Props> = ({ value }) => {
+const TrendIndicator: FC<Props> = ({ value }) => {
   const formattedValue = `${value}%`
 
   // Drop
   if (value < 0) {
     return (
-      <ChangeWrapperNegative className='negative'>
+      <TrendWrapperNegative className='negative'>
         <ArrowDropDownIcon />
         <div className='negative'>{formattedValue}</div>
-      </ChangeWrapperNegative>
+      </TrendWrapperNegative>
     )
   }
 
   // No change
   if (value === 0) {
     return (
-      <ChangeWrapper>
+      <TrendWrapper>
         <div>{formattedValue}</div>
-      </ChangeWrapper>
+      </TrendWrapper>
     )
   }
 
   // Rise
   return (
-    <ChangeWrapperPositve>
+    <TrendWrapperPositve>
       <ArrowDropUpIcon />
       <div>{formattedValue}</div>
-    </ChangeWrapperPositve>
+    </TrendWrapperPositve>
   )
 }
 
-const ChangeWrapper = styled('div')`
+const TrendWrapper = styled('div')`
   display: flex;
   flex-direction: row;
 `
-const ChangeWrapperPositve = styled(ChangeWrapper)`
+const TrendWrapperPositve = styled(TrendWrapper)`
   color: ${green[500]};
 `
-const ChangeWrapperNegative = styled(ChangeWrapper)`
+const TrendWrapperNegative = styled(TrendWrapper)`
   color: ${red[500]};
 `
 
-export default ChangeIndicator
+export default TrendIndicator

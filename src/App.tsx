@@ -2,12 +2,11 @@ import { FC, useEffect, useState } from 'react'
 import { styled, Container } from '@mui/material'
 import CryptoVirutalTable from 'components/Table/CryptoVirtualTable'
 import TimeFrameToggle from 'components/TimeFrameToggle'
-import './App.css'
+import CryptoHistoryDialog from 'components/Dialog/CryptoHistoryDialog'
 
 import { getCryptoList } from 'services/cryptoService'
 import { getCurrentTimestamp } from 'services/helpers'
 import { CoinResponse, TimeFrame } from 'types/main.d'
-import CryptoHistoryDialog from 'components/Dialog/CryptoHistoryDialog'
 
 const App: FC = () => {
   const [cryptoList, setCryptoList] = useState<CoinResponse[]>([])

@@ -2,7 +2,8 @@ import { FC } from 'react'
 import { styled } from '@mui/material/styles'
 import { Paper } from '@mui/material'
 import BaseVirtualizedTable from './BaseVirtualTable'
-import ChangeIndicator from 'components/ChangeIndicator'
+import ChangeIndicator from 'components/TrendIndicator'
+import DynamicPrice from 'components/DynamicPrice'
 import { CoinResponse, TimeFrame, CryptoSparkline } from 'types/main.d'
 import { formatPrice } from 'services/helpers'
 
@@ -60,7 +61,8 @@ const CryptoVirtualTable: FC<Props<CoinResponse>> = ({ dataSource, timeFrame, on
             numeric: true,
             render: record => {
               if (typeof record === 'number') {
-                return formatPrice(record)
+                // return formatPrice(record)
+                return <DynamicPrice value={record} />
               }
               return record
             }
