@@ -3,20 +3,17 @@ import { CoinResponse, CryptoHistory } from 'types/main.d'
 const COINGECKO_ENDPOINT = 'https://api.coingecko.com/api/v3'
 const CURRENCY = 'usd'
 
-interface ErrorResponseFunction {
-  (error: Error): void
+interface BaseRequest<T> {
+  onSuccess: { (data: T): void }
+  onFail: { (error: Error): void }
 }
 
-interface GetCryptoListRequest {
+interface GetCryptoListRequest extends BaseRequest<Array<CoinResponse>> {
   showSparkline: boolean
-  onSuccess: { (data: Array<CoinResponse>): void }
-  onFail: ErrorResponseFunction
 }
 
-interface GetCryptoHistoryRequest {
+interface GetCryptoHistoryRequest extends BaseRequest<CryptoHistory> {
   id: string
-  onSuccess: { (data: CryptoHistory): void }
-  onFail: ErrorResponseFunction
 }
 
 export const getCryptoList = ({ showSparkline, onSuccess, onFail }: GetCryptoListRequest) => {
