@@ -14,9 +14,9 @@ const TrendIndicator: FC<Props> = ({ value }) => {
   // Drop
   if (value < 0) {
     return (
-      <TrendWrapperNegative className='negative'>
+      <TrendWrapperNegative>
         <ArrowDropDownIcon />
-        <div className='negative'>{formattedValue}</div>
+        <div>{formattedValue}</div>
       </TrendWrapperNegative>
     )
   }
