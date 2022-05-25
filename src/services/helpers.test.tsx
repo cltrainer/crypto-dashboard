@@ -11,8 +11,9 @@ describe('Helpers', () => {
 
   it('show current time in formatted timestamp', () => {
     // Sample output = 5/25/2022, 5:09:19 PM
-    const regExp = /^([\d]{1,2}\/[\d]{1,2}\/[\d]{4}, [\d]{1}:[\d]{1,2}:[\d]{1,2} [\w]{2})$/g
-    const match = getCurrentTimestamp().match(regExp)
+    const regExp = /^([\d]{1,2}\/[\d]{1,2}\/[\d]{4}, [\d]{1,2}:[\d]{1,2}:[\d]{1,2} [\w]{2})$/g
+    const timestamp = getCurrentTimestamp()
+    const match = timestamp.match(regExp)
     expect(match ? match.length : 0).toEqual(1)
   })
 })
