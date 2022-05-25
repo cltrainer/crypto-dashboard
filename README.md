@@ -1,46 +1,75 @@
-# Getting Started with Create React App
+# Crypto dashboard
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![](screencap/dashboard.png)
 
-## Available Scripts
+* :sparkles: Demo site https://cltrainer.github.io/crypto-dashboard/
+* This project was bootstrapped with Create React App **(React v16 + Typescript + Material UI)**
+* Used **React Financial Charts + React Virtualized + use-color-change**  for visualization
+* Used **Jest + Enzyme** for testing
 
-In the project directory, you can run:
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Get started
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Go to project root directory and execute
 
-### `npm test`
+```bash
+$ npm install
+$ npm run start
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+The site is ready on [http://localhost:3000](http://localhost:3000)
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Features
 
-### `npm run eject`
+### Crypto-currencies price list
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+* Picked [CoinGecko API](https://www.coingecko.com/en/api)  for the listing 
+  * No API key required
+  * Fast response time for 100 crypto-currencies comprehensive marketing data
+  * High rate limit (up to 50 calls/min) which has enough capacity for demo
+  * Free API data refresh for every 5 minutes
+* Used *setInterval()* to fetch latest crypto-currencies price per minute
+* Used [React virtualized](https://github.com/bvaughn/react-virtualized) to render 100 crypto-currencies listing without lagging
+* Used [use-color-change](https://github.com/JonnyBurger/use-color-change) to highlight price with color whenever the exchange rate has increased / decreased
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### Crypto-currencies average price list
 
-## Learn More
+* CoinGecko API comes with sparkline 7 days data for every crypto-currency
+  * I assumed the sparkline data is evenly distributed on 7 days
+  * eg. If the sparkline has 163 set of data, I assume each day has 163 / 7 = ~23  set of data
+  * By calculating the required the number of data set, the average price can be estimated
+  * For simplicity, I picked *1d / 3d / 7d from today* as time frame
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+
+### History of a given currency
+
+![](screencap/detail.png)
+
+* For simplicity, I picked last 24-hour exchange rate as historical data
+* As the exchange rate data set can be huge, there are not many free and time-series supported chart library available (while some are too old without typescript supported)
+* Used [React Financial Charts](https://github.com/react-financial/react-financial-charts) for data visualization with zoom and drag control
+
+
+
+## Test
+
+Go to root project directory and execute
+
+```
+$ npm run test
+```
+
+Or execute this for coverage check
+
+```bash
+$ npm run test -- --coverage --watchAll
+```
+
+ 
