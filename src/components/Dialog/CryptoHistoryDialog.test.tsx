@@ -1,10 +1,7 @@
-import { ReactWrapper, mount } from 'enzyme'
-import { act } from 'react-dom/test-utils'
+import { mount } from 'enzyme'
 import { waitForComponentToPaint } from 'setupTests'
 import { CoinResponse } from 'types/main.d'
 import CryptoHistoryDialog from './CryptoHistoryDialog'
-
-debugger
 
 describe('CryptoHistoryDialog', () => {
   const onClose = jest.fn()
@@ -36,13 +33,11 @@ describe('CryptoHistoryDialog', () => {
     })
   })
 
-  // it('open dialog with bitcoin cypto info', async done => {
-  //   jest.setTimeout()
+  // it('open dialog with bitcoin cypto info', async () => {
   //   const wrapper = mount(<CryptoHistoryDialog open={true} onClose={onClose} crypto={sampleCrypto} />)
   //   await waitForComponentToPaint(wrapper, 2000, () => {
   //     expect(wrapper.text()).toContain(sampleCrypto.name)
   //     expect(wrapper.exists('.react-financial-charts')).toEqual(true)
-  //     done()
   //   })
   // })
 })
