@@ -9,7 +9,7 @@ import { getCryptoHistory } from 'services/cryptoService'
 interface Props {
   open: boolean
   crypto?: CoinResponse
-  onClose: () => void
+  onClose?: () => void
 }
 
 const CryptoHistoryDialog: FC<Props> = ({ open, crypto, onClose }) => {
@@ -27,6 +27,7 @@ const CryptoHistoryDialog: FC<Props> = ({ open, crypto, onClose }) => {
         },
         onFail: error => {
           console.error(error)
+          setHistory(undefined)
           setIsFetchingHistory(false)
         }
       })
@@ -35,13 +36,16 @@ const CryptoHistoryDialog: FC<Props> = ({ open, crypto, onClose }) => {
 
   const handleClose = () => {
     setHistory(undefined)
-    onClose()
+    if (onClose) {
+      onClose()
+    }
   }
 
   const renderHistory = () => {
+    const dialogId = 'crypto-dialog-title'
     // No crypto is selected
     if (!crypto) {
-      return <></>
+      return <div id='empty-crypto'></div>
     }
 
     // Fetching crypto history
@@ -56,18 +60,25 @@ const CryptoHistoryDialog: FC<Props> = ({ open, crypto, onClose }) => {
     }
 
     // Failed to fetch crypto history
-    if (!history) {
-      return <DialogContent>Failed to grab crypto history</DialogContent>
+    if (!history || history.error) {
+      return (
+        <>
+          <BootstrapDialogTitle id={dialogId} onClose={handleClose}>
+            Error
+          </BootstrapDialogTitle>
+          <DialogContent>Failed to grab {crypto.name} history</DialogContent>
+        </>
+      )
     }
 
     // Show crypto history
     return (
       <>
-        <BootstrapDialogTitle id='crypto-dialog-title' onClose={handleClose}>
+        <BootstrapDialogTitle id={dialogId} onClose={handleClose}>
           {crypto.name} ({crypto.symbol.toUpperCase()}) - Past 24h price
         </BootstrapDialogTitle>
         <DialogContent dividers>
-          <LineChart initialData={history.prices.map(value => ({ date: value[0], volume: value[1] }))} />
+          <LineChart initialData={history.prices.map(value => ({ date: value[0], price: value[1] }))} />
         </DialogContent>
       </>
     )

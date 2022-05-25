@@ -8,6 +8,7 @@ export interface CryptoHistory {
   prices: Array<number[]>
   market_caps: Array<number[]>
   total_volumes: Array<number[]>
+  error?: string
 }
 
 export interface CoinResponse {
