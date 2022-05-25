@@ -88,6 +88,7 @@ const CryptoVirtualTable: FC<Props<CoinResponse>> = ({ dataSource, timeFrame, on
               if (typeof record === 'object') {
                 // Caculate window size
                 // Sparkline length vary among cryptos, can't caculate in advance
+                // Assumption: sparkline data is evenly distributed on 7d
                 const { price } = record as CryptoSparkline
                 let totalWindowSize = price.length
                 let requiredWindowSize = 0
@@ -97,9 +98,10 @@ const CryptoVirtualTable: FC<Props<CoinResponse>> = ({ dataSource, timeFrame, on
                   requiredWindowSize = Math.round(totalWindowSize / 7) * timeFrame
                 }
 
-                //Caculate average price
+                // Caculate average price
+                // Assumption: sparkline data sort by date, index=0 means farest from today
                 let sum = 0
-                for (let i = 0; i < requiredWindowSize; i += 1) {
+                for (let i = totalWindowSize - 1; i >= totalWindowSize - requiredWindowSize; i -= 1) {
                   sum += price[i]
                 }
                 const averagePrice = sum / requiredWindowSize
