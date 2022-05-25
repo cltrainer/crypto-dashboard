@@ -11,7 +11,7 @@ const DynamicPrice: FC<Props> = ({ value }) => {
   const colorStyle = useColorChange(value, {
     higher: green[500],
     lower: red[500],
-    duration: 2000
+    duration: 3000
   })
 
   return <div style={colorStyle}>{formatPrice(value)}</div>

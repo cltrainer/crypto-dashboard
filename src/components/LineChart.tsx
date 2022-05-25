@@ -15,7 +15,7 @@ import { SingleValueTooltip } from 'react-financial-charts/lib/tooltip'
 
 interface Record {
   date: number
-  volume: number
+  price: number
 }
 
 interface Props {
@@ -33,7 +33,7 @@ const LineChart: FC<Props> = ({ initialData }) => {
   const max = xAccessor(data[data.length - 1])
   const min = xAccessor(data[Math.max(0, data.length - 100)])
   const xExtents = [min, max + 5]
-  const yAccessor = (d: Record) => d.volume
+  const yAccessor = (d: Record) => d.price
 
   return (
     <ChartCanvas
