@@ -1,8 +1,6 @@
 import { mount } from 'enzyme'
 import TrendIndicator from './TrendIndicator'
 
-debugger
-
 describe('<TrendIndicator />', () => {
   it('show down arrow with negative value', () => {
     const wrapper = mount(<TrendIndicator value={-1} />)
