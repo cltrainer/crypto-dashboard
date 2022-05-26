@@ -72,4 +72,11 @@ Or execute this for coverage check
 $ npm run test -- --coverage --watchAll
 ```
 
- 
+
+
+ ### Remarks
+
+* [Enzyme](https://github.com/enzymejs/enzyme) supports up to React v16, so I downgraded React form v18 to v16
+* As I didn't work on test utility before, I self learn during development and occupied 50% of the project  time
+* The average code coverage reaches 80%  
+  ![](screencap/coverage.png)
