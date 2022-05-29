@@ -2,8 +2,6 @@ import { mount } from 'enzyme'
 import { CoinResponse } from 'types/main.d'
 import CryptoVirtualTable from './CryptoVirtualTable'
 
-debugger
-
 describe('<CryptoVirutalTable />', () => {
   const data = {
     id: '0',
